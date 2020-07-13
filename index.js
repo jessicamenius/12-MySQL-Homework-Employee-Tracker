@@ -11,10 +11,12 @@ function mainMenu() {
         type: "list",
         choices = [
             "View all employees",
-
+            "View all roles",
+            "View all departments",
         ],
-    }]). then(function(message){
-        if(message.task === "DISPLAY_EMPLOYEES"){
+    }
+]).then(function(message){
+        if(message.mainMenu === "View all employees"){
             displayEmployees();
         }
     })
