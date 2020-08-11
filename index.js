@@ -19,10 +19,13 @@ function mainMenu() {
         if(message.mainMenu === "View all employees"){
             displayEmployees();
         }
+        if (message.task == "ADD_EMPLOYEE") {
+            // call the add employee function
+            addEmployee();
+          }
     })
-    mainMenu();
 }
-
+mainMenu();
 
 function displayEmployees() {
   connection.queryPromise("SQL DATA").then((values) => {
@@ -58,7 +61,7 @@ async function addEmployee(){
     })
 
     let managers = await getManagers();
-    managers = managers.map (({id, first_name, last_name})=>
+    managers = managers.map (({id, first_name, last_name}) =>
     return {
         value: id,
         name:
