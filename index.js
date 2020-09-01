@@ -4,6 +4,7 @@ require("console.table");
 
 init();
 
+// Display logo text, load main prompts
 function init() {
   loadMainPrompts();
 }
@@ -106,6 +107,7 @@ async function loadMainPrompts() {
     default:
       return quit();
   }
+}
 
 async function viewEmployees() {
   const employees = await db.findAllEmployees();

@@ -29,6 +29,8 @@ SELECT * FROM department;
 SELECT * FROM role;
 SELECT * FROM employee;
 
+USE employees;
+
 INSERT INTO department
     (name)
 VALUES
@@ -60,3 +62,4 @@ VALUES
     ('Malia', 'Brown', 6, 5),
     ('Sarah', 'Lourd', 7, NULL),
     ('Tom', 'Allen', 8, 7);
+
