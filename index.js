@@ -4,95 +4,105 @@ const inquirer = require("inquirer");
 const cTable = require("console.table");
 
 function mainMenu() {
-    inquirer.prompt ([
-        {
-        name: "mainMenu",
-        message: "What would you like to do?",
+  inquirer
+    .prompt([
+      {
         type: "list",
-        choices = [
-            "View all employees",
-            "View all roles",
-            "View all departments",
+        name: "choice",
+        message: "What would you like to do?",
+        choices: [
+          {
+            name: "View All Employees",
+            value: "VIEW_EMPLOYEES",
+          },
+          {
+            name: "Add Employee",
+            value: "ADD_EMPLOYEE",
+          },
+          {
+            name: "Remove Employee",
+            value: "REMOVE_EMPLOYEE",
+          },
+          {
+            name: "View All Roles",
+            value: "VIEW_ROLES",
+          },
+          {
+            name: "Add Role",
+            value: "ADD_ROLE",
+          },
+          {
+            name: "Remove Role",
+            value: "REMOVE_ROLE",
+          },
+          {
+            name: "View All Departments",
+            value: "VIEW_DEPARTMENTS",
+          },
+          {
+            name: "Add Department",
+            value: "ADD_DEPARTMENT",
+          },
+          {
+            name: "Remove Department",
+            value: "REMOVE_DEPARTMENT",
+          },
+          {
+            name: "Quit",
+            value: "QUIT",
+          },
         ],
-    }
-]).then(function(message){
-        if(message.mainMenu === "View all employees"){
-            displayEmployees();
-        }
-        if (message.task == "ADD_EMPLOYEE") {
-            // call the add employee function
-            addEmployee();
-          }
-    })
+      },
+    ])
+    .then((res) => {
+      switch (res.mainMenu) {
+        case "VIEW_EMPLOYEES":
+          return displayEmployees();
+        case "ADD_EMPLOYEE":
+          return addEmployee();
+        case "REMOVE_EMPLOYEE":
+          return removeEmployee();
+        case "VIEW_ROLES":
+          return viewRoles();
+        case "ADD_ROLE":
+          return addRole();
+        case "REMOVE_ROLE":
+          return removeRole();
+        case "VIEW_DEPARTMENTS":
+          return viewDepts();
+        case "ADD_DEPARTMENTS":
+          return addDept();
+        case "REMOVE_DEPARTMENTS":
+          return removeDept();
+        default:
+          return quit();
+      }
+    });
 }
+
 mainMenu();
 
-function displayEmployees() {
-  connection.queryPromise("SQL DATA").then((values) => {
-    // use a loop or forEach function to displaay the employee and its table and department
-
-    console.table(values);
-    mainMenu()
+const displayEmployees = () => {
+  return new Promise((resolve, reject) => {
+    connection.query("SELECT * FROM employees", (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+    console.table(displayEmployees);
+    mainMenu();
   });
-}
+};
 
-async function getDepartments(){
-return connection.queryPromise("SELECT id, name FROM department")
-}
+const addEmployee = () => {
+  return new Promise((resolve, reject) => {
+    connection.query("INSERT INTO employee SET ?", [{}]);
+  });
+};
 
-function getManagers(){
-
-    // get all employees here instead of departments
-
-    return connection.queryPromise("SELECT id, first_name, last_name FROM employee")
-
-}
-
-async function addEmployee(){
-
-    // ask for their department, first_name, last_name, manager
-
-    let departments = await getDepartments();
-    departments = departments.map(({id, name})=> {
-        return{
-            value: id,
-            name,
-        }
-    })
-
-    let managers = await getManagers();
-    managers = managers.map (({id, first_name, last_name}) =>
-    return {
-        value: id,
-        name:
-    })
-
-    inquirer.prompt([
-        {
-        type: "input",
-        name: "first_name",
-        message: "Enter employee's first name",
-    },
-    {
-        type: "input",
-        name: "last_name",
-        message: "Enter employee's last name",
-    },
-    {
-        type: "list",
-        name: "department_id",
-        message: "Select the employee's department",
-        choices: departments,
-    },
-    {
-        type: "list",
-        name: "manager_id",
-        message: "Select the employee's manager",
-        choices: managers,
-    },
-]).then(managers) => {
-        // create the employee using connection.query
-
-        connection.query("INSERT INTO employee (first_name, last_name, department_id, manager_id) VALUES (?, ?, ?, ?)", [employe.first_name, employee.last_name])
-    }
-}
+const quit = () => {
+  console.log("Goodbye!");
+  process.exit();
+};

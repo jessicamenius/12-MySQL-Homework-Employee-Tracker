@@ -27,6 +27,7 @@ function init() {
     });
 }
 init();
+
 async function displayEmployees() {
   var values = connection.queryPromise(
     `SELECT employee.first_name, employee.last_name, employee.department_id, department.id, department.name FROM employee INNER JOIN department ON employee.department_id=department.id`
