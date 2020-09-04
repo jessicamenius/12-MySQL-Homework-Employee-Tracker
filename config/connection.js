@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const env = require("dotenv").config();
+const util = require("util");
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -13,5 +14,7 @@ connection.connect((err) => {
   if (err) throw err;
   console.log("we have been connected");
 });
+
+connection.query = util.promisify(connection.query);
 
 module.exports = connection;
